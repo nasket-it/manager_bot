@@ -16,13 +16,13 @@ async def start(message: types.Message):
 @dp.message_handler(commands=['run'])
 async def run_script(message: types.Message):
     # Запуск скрипта
-    subprocess.Popen(["python", "~/home/sanchos_bot/sanchos"])
+    subprocess.Popen(["python", "~/home/sanchos_bot/sanchos/main.py"])
     await message.reply("Скрипт запущен.")
 
 @dp.message_handler(commands=['stop'])
 async def stop_script(message: types.Message):
     # Остановка скрипта
-    subprocess.call(["pkill", "-f", "~/home/sanchos_bot/sanchos"])
+    subprocess.call(["pkill", "-f", "~/home/sanchos_bot/sanchos/main.py"])
     await message.reply("Скрипт остановлен.")
 
 if __name__ == '__main__':
