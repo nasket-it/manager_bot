@@ -34,7 +34,7 @@ async def start(message: types.Message):
 async def run_script(message: types.Message):
     start = 'systemctl start sanchos'
     # Запуск скрипта
-    rezult = run_sudo_command(start)
+    rezult = "🟢 Приложение запущено" if run_sudo_command(start) == 0 else "🚫 Команда не выполнилась, нажмите /status"
     await message.reply(f"{rezult}")
 
 
@@ -42,7 +42,7 @@ async def run_script(message: types.Message):
 async def stop_script(message: types.Message):
     stop = 'systemctl stop sanchos'
     # Остановка скрипта
-    rezult = run_sudo_command(stop)
+    rezult = "🔴 Приложение остановлето" if run_sudo_command(stop) == 0 else "🚫 Команда не выполнилась, нажмите /status"
     await message.reply(f"{rezult}")
 
 
@@ -50,8 +50,8 @@ async def stop_script(message: types.Message):
 async def status_script(message: types.Message):
     status = 'systemctl status sanchos'
     # Остановка скрипта
-    rezult =status_sudo_command(status)
-    await message.reply(f"{rezult}")
+    *rezult, = status_sudo_command(status)
+    await message.reply(f"📍{rezult[1]}")
 
 
 
