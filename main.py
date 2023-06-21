@@ -19,7 +19,7 @@ def run_sudo_command(command):
 
 @dp.message_handler(commands=['start'])
 async def start(message: types.Message):
-    await message.reply("Привет! Отправь /run для запуска скрипта или /stop для его остановки.")
+    await message.reply("Привет! Отправь /run для запуска скрипта или /stop для его остановки или /status для проверки статуса приложения .")
 
 @dp.message_handler(commands=['run'])
 async def run_script(message: types.Message):
@@ -33,6 +33,12 @@ async def stop_script(message: types.Message):
     stop = 'systemctl stop sanchos'
     # Остановка скрипта
     rezult = run_sudo_command(stop)
+    await message.reply(f"{rezult}")
+@dp.message_handler(commands=['status'])
+async def status_script(message: types.Message):
+    status = 'systemctl status sanchos'
+    # Остановка скрипта
+    rezult = run_sudo_command(status)
     await message.reply(f"{rezult}")
 
 
