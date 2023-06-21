@@ -18,10 +18,10 @@ def run_sudo_command(command):
 
 def status_sudo_command(command):
     full_command = f'echo {Token.sudo_password} | sudo -S {command}'
-    process = subprocess.Popen(full_command, shell=True)
-    process.wait()
-    exit_code = process
-    return exit_code
+    process = subprocess.Popen(full_command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    stdout, stderr = process.communicate()
+    exit_code = process.returncode
+    return exit_code, stdout.decode(), stderr.decode()
 # exit_code = run_sudo_command('systemctl stop manager_bot')
 
 
