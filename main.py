@@ -3,7 +3,6 @@ from aiogram import Bot, Dispatcher, types, executor
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from secrete import Token
 
-TOKEN = "YOUR_TELEGRAM_BOT_TOKEN"
 bot = Bot(token=Token.bot_token)
 storage = MemoryStorage()
 dp = Dispatcher(bot, storage=storage)
@@ -15,8 +14,8 @@ def run_sudo_command(command):
     process.wait()
     exit_code = process.returncode
     return exit_code
-exit_code = run_sudo_command('systemctl stop manager_bot')
-print(f"Код завершения: {exit_code}")
+# exit_code = run_sudo_command('systemctl stop manager_bot')
+
 
 @dp.message_handler(commands=['start'])
 async def start(message: types.Message):
@@ -24,26 +23,21 @@ async def start(message: types.Message):
 
 @dp.message_handler(commands=['run'])
 async def run_script(message: types.Message):
+    start = 'systemctl start sanchos'
     # Запуск скрипта
-    subprocess.Popen(["python3", "~/home/sanchos_bot/sanchos/main.py"])
-    await message.reply("Скрипт запущен.")
+    rezult = run_sudo_command(start)
+    await message.reply(f"{rezult}")
 
 @dp.message_handler(commands=['stop'])
 async def stop_script(message: types.Message):
+    stop = 'systemctl stop sanchos'
     # Остановка скрипта
-    subprocess.call(["pkill", "-f", "~/home/sanchos_bot/sanchos/main.py"])
-    await message.reply("Скрипт остановлен.")
+    rezult = run_sudo_command(stop)
+    await message.reply(f"{rezult}")
 
-def run_sudo_command(command, password):
-    full_command = f'echo {password} | sudo -S {command}'
-    process = subprocess.Popen(full_command, shell=True)
-    process.wait()
-    exit_code = process.returncode
-    return exit_code
 
-password = "Ваш_пароль"
-exit_code = run_sudo_command('systemctl stop manager_bot', password)
-print(f"Код завершения: {exit_code}")
+
+
 
 if __name__ == '__main__':
     # Запуск клиента Telethon
